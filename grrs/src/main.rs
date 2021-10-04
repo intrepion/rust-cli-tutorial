@@ -13,16 +13,14 @@ struct Cli {
 fn main() {
     let args = Cli::from_args();
 
-    let result = std::fs::read_to_string(&args.path);
+    let content = std::fs::read_to_string(&args.path).unwrap();
 
-    match result {
-        Ok(content) => {
-            for line in content.lines() {
-                if line.contains(&args.pattern) {
-                    println!("{}", line);
-                }
-            }        
+    println!("file content:\n\n{}", content);
+    println!("lines with text '{}':\n", &args.pattern);
+
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line);
         }
-        Err(error) => { println!("Oh noes: {}", error); }
     }
 }
